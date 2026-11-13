@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="vi" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Evanus Tourism | Cổng Thông Tin Du Lịch, Khách Sạn & Điểm Vui Chơi Việt Nam</title>
+    <meta name="description" content="Evanus Tourism - Cẩm nang du lịch Việt Nam toàn diện: danh lam thắng cảnh 3 miền, khách sạn resort 5 sao, điểm vui chơi giải trí hàng đầu và ẩm thực đặc sản.">
+    <link rel="icon" type="image/png" href="logo.png">
+
+    <!-- Google Fonts for 100% Vietnamese Diacritics Support & Modern OTA UI -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,600&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                            700: '#0369a1',
+                            800: '#075985',
+                        },
+                        amberGold: '#f59e0b',
+                        vietnamRed: '#da251d',
+                    },
+                    fontFamily: {
+                        sans: ['Be Vietnam Pro', 'Inter', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
+                        heading: ['Be Vietnam Pro', 'Inter', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- Leaflet Map CSS & JS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased selection:bg-sky-500 selection:text-white">
+
+    <!-- Top Announcement Bar -->
+    <div class="bg-gradient-to-r from-sky-700 via-sky-600 to-emerald-600 text-white text-xs py-2 px-4 text-center font-medium flex items-center justify-center gap-2">
+        <span class="bg-amber-400 text-slate-900 font-extrabold px-2 py-0.5 rounded text-[11px] uppercase tracking-wider">Ưu Đãi Mùa Du Lịch</span>
+        <span>Nhập mã <strong class="underline decoration-wavy underline-offset-2">VIETNAM2026</strong> giảm thêm 15% cho tất cả khách sạn & resort!</span>
+        <a href="#hotels-section" class="ml-2 font-bold underline hover:text-amber-200 transition">Đặt ngay &rarr;</a>
+    </div>
+
+    <!-- Main Navigation Header -->
+    <header id="main-header" class="sticky top-0 z-50 transition-all duration-300 bg-white/95 backdrop-blur-md border-b border-slate-200/80">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <!-- Brand Logo -->
+            <a href="#" class="flex items-center gap-3 group">
+                <img src="logo.png" alt="Evanus Tourism Logo" class="w-12 h-12 object-contain rounded-2xl shadow-sm border border-slate-100 group-hover:scale-105 transition transform bg-white p-1">
+                <div>
+                    <span class="font-black text-xl tracking-tight text-slate-900 group-hover:text-sky-600 transition flex items-center gap-1.5 font-heading">
+                        Evanus <span class="text-sky-600">Tourism</span>
+                    </span>
+                    <span class="block text-[10px] uppercase font-bold tracking-widest text-slate-400">Du Lịch & Nghỉ Dưỡng Việt Nam</span>
+                </div>
+            </a>
+
+            <!-- Desktop Nav Links -->
+            <nav class="hidden md:flex items-center gap-7 text-sm font-semibold text-slate-700">
+                <a href="#destinations-section" class="hover:text-sky-600 transition py-1 flex items-center gap-1.5">
+                    <i class="fa-solid fa-map-location-dot text-sky-500 text-xs"></i> Điểm Đến
+                </a>
+                <a href="#hotels-section" class="hover:text-sky-600 transition py-1 flex items-center gap-1.5">
+                    <i class="fa-solid fa-hotel text-emerald-500 text-xs"></i> Khách Sạn & Resort
+                </a>
+                <a href="#attractions-section" class="hover:text-sky-600 transition py-1 flex items-center gap-1.5">
+                    <i class="fa-solid fa-ticket text-amber-500 text-xs"></i> Vui Chơi & Giải Trí
+                </a>
+                <a href="#map-section" class="hover:text-sky-600 transition py-1 flex items-center gap-1.5">
+                    <i class="fa-solid fa-compass text-rose-500 text-xs"></i> Bản Đồ
+                </a>
+                <a href="#estimator-section" class="hover:text-sky-600 transition py-1 flex items-center gap-1.5">
+                    <i class="fa-solid fa-calculator text-indigo-500 text-xs"></i> Dự Toán Tour
+                </a>
+                <a href="#culinary-section" class="hover:text-sky-600 transition py-1 flex items-center gap-1.5">
+                    <i class="fa-solid fa-utensils text-orange-500 text-xs"></i> Ẩm Thực
+                </a>
+            </nav>
+
+            <!-- Actions / Hotline -->
+            <div class="hidden lg:flex items-center gap-4">
+                <a href="tel:0902706489" class="flex items-center gap-2.5 px-3 py-1.5 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition">
+                    <div class="w-6 h-6 rounded-full bg-emerald-500 text-white flex items-center justify-center animate-pulse">
+                        <i class="fa-solid fa-phone text-[10px]"></i>
+                    </div>
+                    <span>Hotline: 0902 706 489</span>
+                </a>
+                <a href="#hotels-section" class="px-5 py-2.5 bg-gradient-to-r from-sky-600 to-sky-700 hover:from-sky-500 hover:to-sky-600 text-white text-xs font-bold rounded-xl shadow-md shadow-sky-600/20 transition transform active:scale-95 flex items-center gap-2">
+                    <i class="fa-regular fa-paper-plane"></i> Đặt Phòng Ngay
+                </a>
+            </div>
+
+            <!-- Mobile menu button -->
+            <button id="mobile-menu-btn" class="md:hidden p-2 rounded-lg text-slate-600 hover:bg-slate-100 focus:outline-none">
+                <i class="fa-solid fa-bars text-xl"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Dropdown Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-slate-100 px-6 py-4 space-y-3 text-sm font-semibold shadow-xl">
+            <a href="#destinations-section" class="block py-2 text-slate-700 hover:text-sky-600"><i class="fa-solid fa-map-location-dot w-6 text-sky-500"></i> Điểm Đến Du Lịch</a>
+            <a href="#hotels-section" class="block py-2 text-slate-700 hover:text-sky-600"><i class="fa-solid fa-hotel w-6 text-emerald-500"></i> Khách Sạn & Resort</a>
+            <a href="#attractions-section" class="block py-2 text-slate-700 hover:text-sky-600"><i class="fa-solid fa-ticket w-6 text-amber-500"></i> Điểm Vui Chơi & Giải Trí</a>
+            <a href="#map-section" class="block py-2 text-slate-700 hover:text-sky-600"><i class="fa-solid fa-compass w-6 text-rose-500"></i> Bản Đồ Tương Tác</a>
+            <a href="#estimator-section" class="block py-2 text-slate-700 hover:text-sky-600"><i class="fa-solid fa-calculator w-6 text-indigo-500"></i> Dự Toán Chi Phí</a>
+            <a href="#culinary-section" class="block py-2 text-slate-700 hover:text-sky-600"><i class="fa-solid fa-utensils w-6 text-orange-500"></i> Ẩm Thực 3 Miền</a>
+            <div class="pt-3 border-t border-slate-100 flex flex-col gap-2">
+                <a href="tel:0902706489" class="text-center py-2.5 bg-slate-100 text-slate-800 rounded-xl text-xs font-bold"><i class="fa-solid fa-phone text-emerald-500 mr-2"></i>Hotline: 0902 706 489</a>
+                <a href="#hotels-section" class="text-center py-2.5 bg-sky-600 text-white rounded-xl text-xs font-bold">Đặt Khách Sạn & Resort</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="relative min-h-[640px] flex items-center justify-center text-white overflow-hidden">
+        <!-- Background Image with Overlay -->
+        <div class="absolute inset-0 z-0">
+            <img src="https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&w=2000&q=85" alt="Hạ Long Bay" class="w-full h-full object-cover object-center transform scale-105 filter brightness-90 animate-pulse duration-[10000ms]">
+            <div class="absolute inset-0 hero-overlay"></div>
+        </div>
+
+        <div class="relative z-10 max-w-5xl mx-auto px-4 py-20 text-center">
+            <!-- Badge -->
+            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white text-xs font-semibold uppercase tracking-wider mb-6 animate-bounce">
+                <span class="w-2 h-2 rounded-full bg-emerald-400"></span> Chuyên Tour Đà Lạt, Nha Trang, Vũng Tàu & Miền Nam
+            </div>
+
+            <!-- Main Heading -->
+            <h1 class="font-heading text-4xl sm:text-5xl md:text-6xl font-black tracking-tight leading-tight mb-4 drop-shadow-md">
+                Khám Phá Đà Lạt, Nha Trang, Vũng Tàu <br>
+                <span class="text-gradient">& Thiên Đường Biển Đảo Phía Nam</span>
+            </h1>
+
+            <p class="max-w-2xl mx-auto text-slate-200 text-base sm:text-lg mb-8 font-normal leading-relaxed drop-shadow">
+                Evanus Tourism chuyên tổ chức tour trọn gói, đặt phòng resort biển & villa đồi thông, vé vui chơi giải trí hàng đầu từ Nam Trung Bộ trở vào.
+            </p>
+
+            <!-- Search Widget Bar -->
+            <div class="max-w-3xl mx-auto bg-white/95 backdrop-blur-md p-3 sm:p-4 rounded-2xl sm:rounded-3xl shadow-2xl border border-white/40 text-slate-800">
+                <div class="flex flex-col sm:flex-row items-center gap-3">
+                    <div class="flex-1 w-full flex items-center gap-3 px-4 py-2.5 bg-slate-50 rounded-xl border border-slate-200 focus-within:border-sky-500 focus-within:bg-white transition">
+                        <i class="fa-solid fa-magnifying-glass text-sky-600 text-base"></i>
+                        <input id="hero-search-input" type="text" placeholder="Bạn muốn đi đâu? (Đà Lạt, Nha Trang, Vũng Tàu, Phan Thiết, Phú Quốc...)" class="w-full bg-transparent text-sm font-medium focus:outline-none placeholder:text-slate-400">
+                    </div>
+                    <button id="hero-search-btn" class="w-full sm:w-auto px-8 py-3.5 bg-gradient-to-r from-sky-600 to-sky-700 hover:from-sky-500 hover:to-sky-600 text-white font-bold text-sm rounded-xl shadow-lg shadow-sky-600/30 transition transform active:scale-95 flex items-center justify-center gap-2">
+                        <span>Tìm Kiếm</span>
+                        <i class="fa-solid fa-arrow-right text-xs"></i>
+                    </button>
+                </div>
+
+                <!-- Quick Tags -->
+                <div class="mt-3.5 pt-3 border-t border-slate-100 flex flex-wrap items-center justify-center sm:justify-start gap-2 text-xs text-slate-500">
+                    <span class="font-semibold text-slate-600"><i class="fa-solid fa-fire text-rose-500 mr-1"></i>Điểm hot:</span>
+                    <button class="hero-quick-tag px-2.5 py-1 rounded-lg bg-slate-100 hover:bg-sky-50 hover:text-sky-700 transition" data-dest="Đà Lạt">Đà Lạt</button>
+                    <button class="hero-quick-tag px-2.5 py-1 rounded-lg bg-slate-100 hover:bg-sky-50 hover:text-sky-700 transition" data-dest="Nha Trang">Nha Trang</button>
+                    <button class="hero-quick-tag px-2.5 py-1 rounded-lg bg-slate-100 hover:bg-sky-50 hover:text-sky-700 transition" data-dest="Vũng Tàu">Vũng Tàu</button>
+                    <button class="hero-quick-tag px-2.5 py-1 rounded-lg bg-slate-100 hover:bg-sky-50 hover:text-sky-700 transition" data-dest="Phan Thiết">Phan Thiết - Mũi Né</button>
+                    <button class="hero-quick-tag px-2.5 py-1 rounded-lg bg-slate-100 hover:bg-sky-50 hover:text-sky-700 transition" data-dest="Phú Quốc">Đảo Ngọc Phú Quốc</button>
+                    <button class="hero-quick-tag px-2.5 py-1 rounded-lg bg-slate-100 hover:bg-sky-50 hover:text-sky-700 transition" data-dest="Ninh Thuận">Vĩnh Hy - Ninh Thuận</button>
+                    <button class="hero-quick-tag px-2.5 py-1 rounded-lg bg-slate-100 hover:bg-sky-50 hover:text-sky-700 transition" data-dest="TP. Hồ Chí Minh">TP. Hồ Chí Minh</button>
+                </div>
+            </div>
+
+            <!-- Stats Bar -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto mt-12 text-center text-white">
+                <div class="bg-white/10 backdrop-blur-md rounded-2xl p-4 border border-white/10">
+                    <div class="text-3xl font-extrabold text-amber-400">63</div>
+                    <div class="text-xs text-slate-200 mt-1 font-medium">Tỉnh Thành Khắp Cả Nước</div>
+                </div>
+                <div class="bg-white/10 backdrop-blur-md rounded-2xl p-4 border border-white/10">
+                    <div class="text-3xl font-extrabold text-sky-400">500+</div>
+                    <div class="text-xs text-slate-200 mt-1 font-medium">Kỳ Quan & Danh Lam Thắng Cảnh</div>
+                </div>
+                <div class="bg-white/10 backdrop-blur-md rounded-2xl p-4 border border-white/10">
+                    <div class="text-3xl font-extrabold text-emerald-400">1.200+</div>
+                    <div class="text-xs text-slate-200 mt-1 font-medium">Khách Sạn & Resort Tiêu Chuẩn</div>
+                </div>
+                <div class="bg-white/10 backdrop-blur-md rounded-2xl p-4 border border-white/10">
+                    <div class="text-3xl font-extrabold text-rose-400">99.8%</div>
+                    <div class="text-xs text-slate-200 mt-1 font-medium">Du Khách Hài Lòng Tuyệt Đối</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 1: DESTINATIONS -->
+    <section id="destinations-section" class="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-4">
+            <div>
+                <span class="text-xs font-bold uppercase tracking-widest text-sky-600 bg-sky-50 px-3 py-1 rounded-full border border-sky-100">
+                    Tuyến Điểm Chuyên Sâu
+                </span>
+                <h2 class="font-heading text-3xl sm:text-4xl font-black tracking-tight text-slate-900 mt-3">
+                    Điểm Đến Nghỉ Dưỡng Hàng Đầu Phía Nam
+                </h2>
+                <p class="text-slate-500 text-sm mt-1 max-w-xl">
+                    Chuyên các tuyến nghỉ dưỡng cao nguyên Đà Lạt, vịnh biển Nha Trang, bãi biển Vũng Tàu, Phan Thiết và đảo ngọc Phú Quốc.
+                </p>
+            </div>
+
+            <!-- Filter Controls -->
+            <div class="flex flex-wrap items-center gap-2">
+                <button class="dest-tab-btn px-4 py-2 rounded-xl text-xs font-bold transition bg-sky-600 text-white shadow-sm" data-region="all">
+                    Tất Cả Tuyến
+                </button>
+                <button class="dest-tab-btn px-4 py-2 rounded-xl text-xs font-bold transition bg-slate-100 text-slate-700 hover:bg-slate-200" data-region="tay-nguyen">
+                    Đà Lạt (Tây Nguyên)
+                </button>
+                <button class="dest-tab-btn px-4 py-2 rounded-xl text-xs font-bold transition bg-slate-100 text-slate-700 hover:bg-slate-200" data-region="nam-trung-bo">
+                    Nha Trang & Nam Trung Bộ
+                </button>
+                <button class="dest-tab-btn px-4 py-2 rounded-xl text-xs font-bold transition bg-slate-100 text-slate-700 hover:bg-slate-200" data-region="dong-nam-bo">
+                    Vũng Tàu & Đông Nam Bộ
+                </button>
+                <button class="dest-tab-btn px-4 py-2 rounded-xl text-xs font-bold transition bg-slate-100 text-slate-700 hover:bg-slate-200" data-region="tay-nam-bo">
+                    Phú Quốc & Miền Tây
+                </button>
+            </div>
+        </div>
+
+        <!-- Search Bar Filter for Destinations -->
+        <div class="mb-8 flex items-center gap-3 bg-white px-4 py-3 rounded-2xl border border-slate-200 shadow-sm max-w-md">
+            <i class="fa-solid fa-filter text-sky-500"></i>
+            <input id="dest-search-input" type="text" placeholder="Lọc nhanh điểm đến theo tên hoặc tỉnh thành..." class="w-full text-xs font-medium focus:outline-none placeholder:text-slate-400">
+        </div>
+
+        <!-- Destinations Grid Container -->
+        <div id="destinations-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Rendered by JS -->
+        </div>
+    </section>
+
+    <!-- SECTION 2: HOTELS & RESORTS -->
+    <section id="hotels-section" class="py-20 bg-slate-100/70 border-y border-slate-200/80">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-4">
+                <div>
+                    <span class="text-xs font-bold uppercase tracking-widest text-emerald-600 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-100">
+                        Đối Tác Khách Sạn Evanus Tourism
+                    </span>
+                    <h2 class="font-heading text-3xl sm:text-4xl font-black tracking-tight text-slate-900 mt-3">
+                        Danh Sách Khách Sạn Đà Lạt & Nha Trang
+                    </h2>
+                    <p class="text-slate-500 text-sm mt-1 max-w-xl">
+                        Hệ thống khách sạn đối tác liên kết trực tiếp với Evanus Tourism – cam kết giá ưu đãi nhất, vị trí đắc địa gần chợ đêm Đà Lạt và bãi biển Nha Trang.
+                    </p>
+                </div>
+
+                <!-- Hotel Filters -->
+                <div class="flex flex-wrap items-center gap-2">
+                    <button class="hotel-filter-btn px-4 py-2 rounded-xl text-xs font-bold transition bg-sky-600 text-white shadow-sm" data-hotel-type="all">
+                        Tất Cả (10 KS)
+                    </button>
+                    <button class="hotel-filter-btn px-4 py-2 rounded-xl text-xs font-bold transition bg-slate-100 text-slate-700 hover:bg-slate-200" data-hotel-type="dalat">
+                        <i class="fa-solid fa-mountain text-xs mr-1 text-emerald-600"></i> Đà Lạt (7 KS)
+                    </button>
+                    <button class="hotel-filter-btn px-4 py-2 rounded-xl text-xs font-bold transition bg-slate-100 text-slate-700 hover:bg-slate-200" data-hotel-type="nhatrang">
+                        <i class="fa-solid fa-umbrella-beach text-xs mr-1 text-sky-600"></i> Nha Trang (3 KS)
+                    </button>
+                    <button class="hotel-filter-btn px-4 py-2 rounded-xl text-xs font-bold transition bg-slate-100 text-slate-700 hover:bg-slate-200" data-hotel-type="4star">
+                        Khách Sạn 4 Sao
+                    </button>
+                    <button class="hotel-filter-btn px-4 py-2 rounded-xl text-xs font-bold transition bg-slate-100 text-slate-700 hover:bg-slate-200" data-hotel-type="3star">
+                        Khách Sạn 3 Sao
+                    </button>
+                </div>
+            </div>
+
+            <!-- Hotels Grid -->
+            <div id="hotels-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-7">
+                <!-- Rendered by JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 3: ATTRACTIONS & ENTERTAINMENT -->
+    <section id="attractions-section" class="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-4">
+            <div>
+                <span class="text-xs font-bold uppercase tracking-widest text-amber-600 bg-amber-50 px-3 py-1 rounded-full border border-amber-100">
+                    Giải Trí & Vui Chơi
+                </span>
+                <h2 class="font-heading text-3xl sm:text-4xl font-black tracking-tight text-slate-900 mt-3">
+                    Điểm Vui Chơi & Trải Nghiệm Đỉnh Cao
+                </h2>
+                <p class="text-slate-500 text-sm mt-1 max-w-xl">
+                    Khuấy động kỳ nghỉ với các công viên chủ đề kỷ lục thế giới, trekking săn mây và hoạt động biển kỳ thú.
+                </p>
+            </div>
+
+            <!-- Category filters -->
+            <div class="flex flex-wrap items-center gap-2">
+                <button class="attr-tab-btn px-4 py-2 rounded-xl text-xs font-bold transition bg-emerald-600 text-white shadow-sm" data-category="all">
+                    Tất Cả
+                </button>
+                <button class="attr-tab-btn px-4 py-2 rounded-xl text-xs font-bold transition bg-slate-100 text-slate-700 hover:bg-slate-200" data-category="themepark">
+                    Công Viên Chủ Đề
+                </button>
+                <button class="attr-tab-btn px-4 py-2 rounded-xl text-xs font-bold transition bg-slate-100 text-slate-700 hover:bg-slate-200" data-category="nature">
+                    Thiên Nhiên & Săn Mây
+                </button>
+                <button class="attr-tab-btn px-4 py-2 rounded-xl text-xs font-bold transition bg-slate-100 text-slate-700 hover:bg-slate-200" data-category="adventure">
+                    Kayak & Thể Thao Nước
+                </button>
+                <button class="attr-tab-btn px-4 py-2 rounded-xl text-xs font-bold transition bg-slate-100 text-slate-700 hover:bg-slate-200" data-category="culture">
+                    Văn Hóa Bản Địa
+                </button>
+            </div>
+        </div>
+
+        <!-- Attractions Grid -->
+        <div id="attractions-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-7">
+            <!-- Rendered by JS -->
+        </div>
+    </section>
+
+    <!-- SECTION 4: INTERACTIVE MAP OF VIETNAM -->
+    <section id="map-section" class="py-20 bg-slate-900 text-white relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-12">
+                <span class="text-xs font-bold uppercase tracking-widest text-sky-400 bg-sky-950 px-3 py-1 rounded-full border border-sky-800">
+                    Bản Đồ Địa Lý Tương Tác
+                </span>
+                <h2 class="font-heading text-3xl sm:text-4xl font-black tracking-tight mt-3">
+                    Bản Đồ Du Lịch Việt Nam
+                </h2>
+                <p class="text-slate-400 text-sm mt-2">
+                    Nhấp vào các điểm ghim trên bản đồ hình chữ S để xem thông tin chi tiết từng địa danh, khách sạn và các tour gợi ý.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-4 gap-8 items-stretch">
+                <!-- Map Left Summary Sidebar -->
+                <div class="lg:col-span-1 bg-slate-800/80 rounded-2xl p-6 border border-slate-700 flex flex-col justify-between">
+                    <div>
+                        <h3 class="text-lg font-bold text-white mb-4 flex items-center gap-2">
+                            <i class="fa-solid fa-layer-group text-sky-400"></i> Tuyến Tour Trọng Điểm
+                        </h3>
+                        <div class="space-y-4 text-xs">
+                            <div class="p-3 bg-slate-700/50 rounded-xl border border-slate-600">
+                                <span class="font-bold text-sky-400 block mb-1">Đà Lạt & Cao Nguyên Lâm Viên</span>
+                                <p class="text-slate-300">Xứ sở sương mù, săn mây Đa Phú, máng trượt alpine Thác Datanla, rừng thông nguyên sinh và quán cà phê lãng mạn.</p>
+                            </div>
+                            <div class="p-3 bg-slate-700/50 rounded-xl border border-slate-600">
+                                <span class="font-bold text-emerald-400 block mb-1">Vịnh Biển Nha Trang & Vĩnh Hy</span>
+                                <p class="text-slate-300">Vịnh biển quyến rũ hàng đầu, tour cano lặn ngắm san hô, quần thể giải trí VinWonders Hòn Tre và rạn đá cổ Hang Rái.</p>
+                            </div>
+                            <div class="p-3 bg-slate-700/50 rounded-xl border border-slate-600">
+                                <span class="font-bold text-amber-400 block mb-1">Vũng Tàu, Phan Thiết & Phú Quốc</span>
+                                <p class="text-slate-300">Nghỉ dưỡng Bãi Sau Vũng Tàu, tour xe Jeep đồi cát Bàu Trắng Mũi Né và thiên đường biển đảo Phú Quốc nắng ấm.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-6 pt-4 border-t border-slate-700">
+                        <button onclick="leafletMapInstance && leafletMapInstance.setView([11.6, 107.8], 7)" class="w-full py-2.5 bg-sky-600 hover:bg-sky-500 rounded-xl text-xs font-bold transition flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-arrows-rotate"></i> Đặt Lại Trung Tâm Bản Đồ
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Leaflet Map Container -->
+                <div class="lg:col-span-3 rounded-2xl overflow-hidden shadow-2xl border border-slate-700">
+                    <div id="vietnam-map"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 5: TRIP COST ESTIMATOR & ITINERARY GENERATOR -->
+    <section id="estimator-section" class="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-3xl mx-auto mb-14">
+            <span class="text-xs font-bold uppercase tracking-widest text-indigo-600 bg-indigo-50 px-3 py-1 rounded-full border border-indigo-100">
+                Công Cụ Thông Minh
+            </span>
+            <h2 class="font-heading text-3xl sm:text-4xl font-black tracking-tight text-slate-900 mt-3">
+                Dự Toán Chi Phí & Tạo Lịch Trình
+            </h2>
+            <p class="text-slate-500 text-sm mt-2">
+                Tự động tính toán ngân sách chi tiết cho chuyến đi của bạn và nhận lịch trình tối ưu từng ngày chỉ trong 3 giây.
+            </p>
+        </div>
+
+        <div class="bg-white rounded-3xl p-6 sm:p-10 shadow-xl border border-slate-200/80 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+            <!-- Left Form Controls -->
+            <div class="lg:col-span-5 space-y-5">
+                <h3 class="text-lg font-bold text-slate-900 pb-3 border-b border-slate-100 flex items-center gap-2">
+                    <i class="fa-solid fa-sliders text-sky-600"></i> Thông Tin Chuyến Đi
+                </h3>
+
+                <!-- Destination Selector -->
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Điểm đến dự kiến:</label>
+                    <select id="calc-dest" class="w-full px-4 py-3 rounded-xl border border-slate-200 text-sm font-semibold bg-slate-50 focus:bg-white focus:outline-none focus:border-sky-500 transition">
+                        <option value="da-lat" selected>Đà Lạt Săn Mây & Nghỉ Dưỡng (Lâm Đồng)</option>
+                        <option value="nha-trang">Vịnh Biển Nha Trang & Đảo Hòn Tre (Khánh Hòa)</option>
+                        <option value="vung-tau">Thành Phố Biển Vũng Tàu (Bà Rịa - Vũng Tàu)</option>
+                        <option value="phan-thiet">Phan Thiết - Đồi Cát Mũi Né (Bình Thuận)</option>
+                        <option value="phu-quoc">Thiên Đường Đảo Ngọc Phú Quốc (Kiên Giang)</option>
+                    </select>
+                </div>
+
+                <!-- Days Selector -->
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Số ngày đi:</label>
+                        <select id="calc-days" class="w-full px-4 py-3 rounded-xl border border-slate-200 text-sm font-semibold bg-slate-50 focus:bg-white focus:outline-none focus:border-sky-500 transition">
+                            <option value="2">2 ngày 1 đêm</option>
+                            <option value="3" selected>3 ngày 2 đêm</option>
+                            <option value="4">4 ngày 3 đêm</option>
+                            <option value="5">5 ngày 4 đêm</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Số người tham gia:</label>
+                        <input id="calc-people" type="number" min="1" max="20" value="2" class="w-full px-4 py-3 rounded-xl border border-slate-200 text-sm font-semibold bg-slate-50 focus:bg-white focus:outline-none focus:border-sky-500 transition">
+                    </div>
+                </div>
+
+                <!-- Style Selector -->
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Phong cách du lịch:</label>
+                    <select id="calc-style" class="w-full px-4 py-3 rounded-xl border border-slate-200 text-sm font-semibold bg-slate-50 focus:bg-white focus:outline-none focus:border-sky-500 transition">
+                        <option value="budget">Tiết kiệm (Homestay / Khách sạn 2-3 sao, ẩm thực bình dân)</option>
+                        <option value="standard" selected>Tiêu chuẩn (Khách sạn 4 sao, ăn uống phong phú, tour cano)</option>
+                        <option value="luxury">Sang trọng (Resort 5 sao biển, du thuyền hạng sang, nhà hàng fine-dining)</option>
+                    </select>
+                </div>
+
+                <button id="calc-submit-btn" class="w-full py-3.5 bg-gradient-to-r from-indigo-600 to-sky-600 hover:from-indigo-500 hover:to-sky-500 text-white rounded-xl text-sm font-bold shadow-lg shadow-indigo-600/25 transition active:scale-95 flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-chart-pie"></i> Tính Toán & Cập Nhật Lịch Trình
+                </button>
+            </div>
+
+            <!-- Right Results & Dynamic Itinerary -->
+            <div class="lg:col-span-7 bg-slate-50 rounded-2xl p-6 border border-slate-200 space-y-6">
+                <!-- Breakdown Row -->
+                <div>
+                    <span class="text-xs font-bold text-slate-500 uppercase tracking-wider block mb-3">Dự Toán Chi Phí Chi Tiết:</span>
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 text-center">
+                        <div class="bg-white p-3 rounded-xl border border-slate-200">
+                            <span class="text-[11px] text-slate-400 block font-medium">Vé Máy Bay / Xe</span>
+                            <span id="calc-res-flight" class="text-sm font-bold text-slate-800">3.200.000đ</span>
+                        </div>
+                        <div class="bg-white p-3 rounded-xl border border-slate-200">
+                            <span class="text-[11px] text-slate-400 block font-medium">Khách Sạn / Đêm</span>
+                            <span id="calc-res-hotel" class="text-sm font-bold text-slate-800">1.600.000đ</span>
+                        </div>
+                        <div class="bg-white p-3 rounded-xl border border-slate-200">
+                            <span class="text-[11px] text-slate-400 block font-medium">Ăn Uống 3 Miền</span>
+                            <span id="calc-res-food" class="text-sm font-bold text-slate-800">2.100.000đ</span>
+                        </div>
+                        <div class="bg-white p-3 rounded-xl border border-slate-200">
+                            <span class="text-[11px] text-slate-400 block font-medium">Vé Vui Chơi & Tour</span>
+                            <span id="calc-res-tickets" class="text-sm font-bold text-slate-800">2.700.000đ</span>
+                        </div>
+                    </div>
+
+                    <!-- Total Banner -->
+                    <div class="mt-4 p-4 rounded-xl bg-gradient-to-r from-sky-600 to-indigo-700 text-white flex items-center justify-between shadow-md">
+                        <div>
+                            <span class="text-xs text-sky-200 uppercase tracking-wider block font-bold">Tổng Ngân Sách Dự Kiến:</span>
+                            <span id="calc-res-total" class="text-2xl font-black">9.600.000đ</span>
+                        </div>
+                        <div class="text-right">
+                            <span id="calc-res-perperson" class="text-xs bg-white/20 px-3 py-1 rounded-full font-bold">~4.800.000đ / người</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dynamic Itinerary Box -->
+                <div id="calc-itinerary-preview">
+                    <!-- Rendered by JS -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 6: CULINARY JOURNEY -->
+    <section id="culinary-section" class="py-20 bg-amber-50/50 border-t border-amber-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-12">
+                <span class="text-xs font-bold uppercase tracking-widest text-amber-700 bg-amber-100 px-3 py-1 rounded-full border border-amber-200">
+                    Mỹ Vị Đất Việt
+                </span>
+                <h2 class="font-heading text-3xl sm:text-4xl font-black tracking-tight text-slate-900 mt-3">
+                    Hành Trình Ẩm Thực 3 Miền
+                </h2>
+                <p class="text-slate-600 text-sm mt-2">
+                    Thưởng thức những món ngon làm say đắm hàng triệu thực khách quốc tế và địa chỉ thưởng thức chuẩn vị nhất.
+                </p>
+            </div>
+
+            <!-- Culinary Cards -->
+            <div id="culinary-grid" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Rendered by JS -->
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 7: TESTIMONIALS & REVIEWS -->
+    <section class="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-3xl mx-auto mb-14">
+            <span class="text-xs font-bold uppercase tracking-widest text-sky-600 bg-sky-50 px-3 py-1 rounded-full border border-sky-100">
+                Trải Nghiệm Thực Tế
+            </span>
+            <h2 class="font-heading text-3xl sm:text-4xl font-black tracking-tight text-slate-900 mt-3">
+                Chia Sẻ Từ Khách Du Lịch
+            </h2>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <!-- Review 1 -->
+            <div class="bg-white p-7 rounded-2xl shadow-sm border border-slate-100 flex flex-col justify-between">
+                <div>
+                    <div class="flex items-center gap-1 text-amber-400 mb-3 text-sm">
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                    </div>
+                    <p class="text-slate-600 text-sm leading-relaxed italic">
+                        "Gia đình mình vừa có chuyến nghỉ dưỡng 4 ngày 3 đêm tại Vinpearl Phú Quốc đặt qua trang. Dịch vụ tuyệt vời, lịch trình gợi ý rất khoa học giúp cả nhà vừa đi được Safari vừa xem trọn show Once mà không hề bị mệt."
+                    </p>
+                </div>
+                <div class="mt-6 pt-4 border-t border-slate-100 flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-full bg-sky-600 text-white font-bold flex items-center justify-center text-sm">
+                        HA
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-sm text-slate-900">Hoàng Anh & Gia Đình</h4>
+                        <span class="text-xs text-slate-400">Du khách từ Hà Nội • Điểm đến Phú Quốc</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Review 2 -->
+            <div class="bg-white p-7 rounded-2xl shadow-sm border border-slate-100 flex flex-col justify-between">
+                <div>
+                    <div class="flex items-center gap-1 text-amber-400 mb-3 text-sm">
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                    </div>
+                    <p class="text-slate-600 text-sm leading-relaxed italic">
+                        "Gia đình mình vừa có chuyến nghỉ dưỡng cuối tuần ở Vũng Tàu tại The Imperial Hotel đặt qua Evanus Tourism. Khách sạn phong cách hoàng gia ngay Bãi Sau quá đẹp, các bạn tư vấn lịch trình leo Tượng Chúa Kitô và đi Hồ Mây Park rất tận tâm!"
+                    </p>
+                </div>
+                <div class="mt-6 pt-4 border-t border-slate-100 flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-full bg-emerald-600 text-white font-bold flex items-center justify-center text-sm">
+                        ML
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-sm text-slate-900">Mai Linh</h4>
+                        <span class="text-xs text-slate-400">Du khách từ TP.HCM • Điểm đến Vũng Tàu</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Review 3 -->
+            <div class="bg-white p-7 rounded-2xl shadow-sm border border-slate-100 flex flex-col justify-between">
+                <div>
+                    <div class="flex items-center gap-1 text-amber-400 mb-3 text-sm">
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+                    </div>
+                    <p class="text-slate-600 text-sm leading-relaxed italic">
+                        "Chuyến đi Đà Lạt 3N2Đ cùng nhóm bạn siêu ưng ý! Evanus Tourism gợi ý tour xe Jeep săn mây Đồi Đa Phú lúc 4h30 sáng đón bình minh đẹp xuất sắc, lại còn được trải nghiệm máng trượt Thác Datanla siêu đã. Chắc chắn sẽ quay lại!"
+                    </p>
+                </div>
+                <div class="mt-6 pt-4 border-t border-slate-100 flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-full bg-indigo-600 text-white font-bold flex items-center justify-center text-sm">
+                        TT
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-sm text-slate-900">Trần Tiến Đạt</h4>
+                        <span class="text-xs text-slate-400">Du khách từ TP.HCM • Điểm đến Đà Lạt</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 8: NEWSLETTER & CTA -->
+    <section class="py-16 bg-gradient-to-r from-sky-700 via-sky-800 to-slate-900 text-white">
+        <div class="max-w-5xl mx-auto px-4 text-center">
+            <span class="px-3.5 py-1 rounded-full bg-white/10 text-sky-200 text-xs font-semibold uppercase tracking-wider inline-block mb-3 border border-white/20">
+                Nhận Bản Tin Du Lịch
+            </span>
+            <h2 class="font-heading text-3xl sm:text-4xl font-black tracking-tight mb-3">
+                Đăng Ký Nhận Ebook Cẩm Nang Du Lịch & Voucher 20%
+            </h2>
+            <p class="text-slate-300 text-sm max-w-xl mx-auto mb-8 font-normal leading-relaxed">
+                Nhận ngay bản đồ ẩm thực 63 tỉnh thành, lịch trình bí mật ít người biết và các mã giảm giá khách sạn độc quyền mỗi tuần.
+            </p>
+
+            <form id="newsletter-form" class="max-w-md mx-auto flex flex-col sm:flex-row gap-2">
+                <input id="newsletter-email" type="email" required placeholder="Nhập địa chỉ email của bạn..." class="flex-1 px-4 py-3 rounded-xl bg-white/10 text-white placeholder:text-slate-300 border border-white/20 focus:outline-none focus:bg-white/20 text-sm transition">
+                <button type="submit" class="px-6 py-3 bg-amber-400 hover:bg-amber-300 text-slate-900 font-bold text-sm rounded-xl transition shadow-lg shadow-amber-400/20 active:scale-95 flex items-center justify-center gap-2">
+                    <span>Đăng Ký</span>
+                    <i class="fa-solid fa-paper-plane text-xs"></i>
+                </button>
+            </form>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-slate-950 text-slate-400 text-xs pt-16 pb-12 border-t border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 mb-12">
+            <!-- Brand Col -->
+            <div class="lg:col-span-2 space-y-4">
+                <div class="flex items-center gap-3">
+                    <img src="logo.png" alt="Evanus Tourism Logo" class="w-12 h-12 object-contain rounded-2xl bg-white p-1 shadow-md border border-slate-700">
+                    <div>
+                        <span class="font-black text-xl tracking-tight text-white font-heading block">
+                            Evanus <span class="text-sky-400">Tourism</span>
+                        </span>
+                        <span class="text-[10px] uppercase font-bold tracking-widest text-slate-400">Du Lịch & Nghỉ Dưỡng Việt Nam</span>
+                    </div>
+                </div>
+                <p class="text-slate-400 leading-relaxed text-xs pr-4">
+                    Evanus Tourism - Cổng thông tin du lịch và đặt phòng khách sạn, nghỉ dưỡng, vé vui chơi hàng đầu Việt Nam. Đồng hành cùng bạn trên mọi cung đường khám phá dải đất hình chữ S.
+                </p>
+                <div class="flex items-center gap-3 pt-2">
+                    <a href="#" class="w-8 h-8 rounded-full bg-slate-800 hover:bg-sky-600 text-white flex items-center justify-center transition"><i class="fa-brands fa-facebook-f text-xs"></i></a>
+                    <a href="#" class="w-8 h-8 rounded-full bg-slate-800 hover:bg-rose-600 text-white flex items-center justify-center transition"><i class="fa-brands fa-instagram text-xs"></i></a>
+                    <a href="#" class="w-8 h-8 rounded-full bg-slate-800 hover:bg-red-600 text-white flex items-center justify-center transition"><i class="fa-brands fa-youtube text-xs"></i></a>
+                    <a href="#" class="w-8 h-8 rounded-full bg-slate-800 hover:bg-black text-white flex items-center justify-center transition"><i class="fa-brands fa-tiktok text-xs"></i></a>
+                </div>
+            </div>
+
+            <!-- Col 2: Destinations -->
+            <div>
+                <h4 class="font-bold text-white uppercase tracking-wider mb-4 text-xs">Điểm Đến Trọng Điểm</h4>
+                <ul class="space-y-2.5">
+                    <li><a href="#destinations-section" class="hover:text-white transition">Đà Lạt Xứ Sở Ngàn Hoa</a></li>
+                    <li><a href="#destinations-section" class="hover:text-white transition">Vịnh Biển Nha Trang</a></li>
+                    <li><a href="#destinations-section" class="hover:text-white transition">Thành Phố Biển Vũng Tàu</a></li>
+                    <li><a href="#destinations-section" class="hover:text-white transition">Phan Thiết - Mũi Né</a></li>
+                    <li><a href="#destinations-section" class="hover:text-white transition">Thiên Đường Đảo Ngọc Phú Quốc</a></li>
+                    <li><a href="#destinations-section" class="hover:text-white transition">Vịnh Vĩnh Hy - Ninh Thuận</a></li>
+                </ul>
+            </div>
+
+            <!-- Col 3: Services -->
+            <div>
+                <h4 class="font-bold text-white uppercase tracking-wider mb-4 text-xs">Dịch Vụ & Tiện Ích</h4>
+                <ul class="space-y-2.5">
+                    <li><a href="#hotels-section" class="hover:text-white transition">Đặt Resort Biển & Biệt Thự Đà Lạt</a></li>
+                    <li><a href="#attractions-section" class="hover:text-white transition">Vé VinWonders Nha Trang & Phú Quốc</a></li>
+                    <li><a href="#attractions-section" class="hover:text-white transition">Cáp Treo Hồ Mây Park Vũng Tàu</a></li>
+                    <li><a href="#attractions-section" class="hover:text-white transition">Tour Xe Jeep Bàu Trắng Mũi Né</a></li>
+                    <li><a href="#estimator-section" class="hover:text-white transition">Dự Toán Chi Phí & Tạo Tour Nhanh</a></li>
+                    <li><a href="#culinary-section" class="hover:text-white transition">Cẩm Nang Ẩm Thực Đặc Sản</a></li>
+                </ul>
+            </div>
+
+            <!-- Col 4: Contact -->
+            <div>
+                <h4 class="font-bold text-white uppercase tracking-wider mb-4 text-xs">Liên Hệ & Hỗ Trợ</h4>
+                <ul class="space-y-2.5 text-slate-300">
+                    <li class="flex items-start gap-2">
+                        <i class="fa-solid fa-headset text-sky-400 mt-0.5"></i>
+                        <span>Hotline 24/7: <strong>0902 706 489</strong></span>
+                    </li>
+                    <li class="flex items-start gap-2">
+                        <i class="fa-solid fa-envelope text-sky-400 mt-0.5"></i>
+                        <span>hotro@evanustourism.com</span>
+                    </li>
+                    <li class="flex items-start gap-2">
+                        <i class="fa-solid fa-location-dot text-sky-400 mt-0.5"></i>
+                        <span>Hà Nội & TP. Hồ Chí Minh, Việt Nam</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 border-t border-slate-800 text-center flex flex-col sm:flex-row items-center justify-between text-[11px] text-slate-500">
+            <p>&copy; 2026 Evanus Tourism. Toàn bộ bản quyền thuộc về Evanus Tourism.</p>
+            <div class="flex gap-4 mt-2 sm:mt-0">
+                <a href="#" class="hover:text-slate-400">Điều khoản sử dụng</a>
+                <a href="#" class="hover:text-slate-400">Chính sách bảo mật</a>
+                <a href="#" class="hover:text-slate-400">Quy định hoàn tiền</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- MODAL: DESTINATION DETAILS -->
+    <div id="dest-detail-modal" class="app-modal fixed inset-0 z-50 flex items-center justify-center p-4 modal-backdrop hidden">
+        <div class="bg-white rounded-3xl max-w-2xl w-full overflow-hidden shadow-2xl animate-in fade-in zoom-in-95 duration-200">
+            <div class="relative h-64 w-full">
+                <img id="dest-modal-img" src="" alt="" class="w-full h-full object-cover">
+                <button class="modal-close absolute top-4 right-4 w-9 h-9 rounded-full bg-black/60 text-white flex items-center justify-center hover:bg-black transition">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+                <div class="absolute bottom-4 left-4 right-4 text-white">
+                    <span id="dest-modal-region" class="text-xs bg-sky-600 px-2.5 py-1 rounded-full font-bold"></span>
+                    <h3 id="dest-modal-title" class="text-2xl font-black mt-2 drop-shadow"></h3>
+                </div>
+            </div>
+            <div class="p-6 space-y-4">
+                <p id="dest-modal-desc" class="text-slate-600 text-sm leading-relaxed"></p>
+
+                <div class="grid grid-cols-3 gap-3 text-center bg-slate-50 p-3 rounded-2xl border border-slate-100">
+                    <div>
+                        <span class="text-[11px] text-slate-400 font-medium block">Nhiệt độ hiện tại</span>
+                        <span id="dest-modal-temp" class="text-sm font-bold text-slate-800"></span>
+                    </div>
+                    <div>
+                        <span class="text-[11px] text-slate-400 font-medium block">Thời gian lý tưởng</span>
+                        <span id="dest-modal-besttime" class="text-xs font-bold text-emerald-700"></span>
+                    </div>
+                    <div>
+                        <span class="text-[11px] text-slate-400 font-medium block">Chi phí ước tính</span>
+                        <span id="dest-modal-price" class="text-xs font-bold text-rose-600"></span>
+                    </div>
+                </div>
+
+                <div>
+                    <h4 class="text-xs font-bold text-slate-800 uppercase tracking-wider mb-2">Trải Nghiệm Tiêu Biểu:</h4>
+                    <ul id="dest-modal-highlights" class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                        <!-- Loaded dynamically -->
+                    </ul>
+                </div>
+
+                <div class="pt-4 border-t border-slate-100 flex items-center justify-end gap-3">
+                    <button class="modal-close px-5 py-2.5 rounded-xl border border-slate-200 text-slate-700 text-xs font-bold hover:bg-slate-50 transition">
+                        Đóng
+                    </button>
+                    <a href="#hotels-section" onclick="document.getElementById('dest-detail-modal').classList.add('hidden')" class="px-5 py-2.5 bg-sky-600 hover:bg-sky-500 text-white rounded-xl text-xs font-bold shadow-md transition">
+                        Xem Khách Sạn Gần Đây
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: HOTEL BOOKING -->
+    <div id="booking-modal" class="app-modal fixed inset-0 z-50 flex items-center justify-center p-4 modal-backdrop hidden overflow-y-auto">
+        <div class="bg-white rounded-3xl max-w-xl w-full overflow-hidden shadow-2xl my-8">
+            <div class="p-6 bg-gradient-to-r from-sky-700 to-sky-900 text-white flex items-center justify-between">
+                <div>
+                    <span class="text-[11px] text-sky-200 uppercase tracking-widest font-bold">Phiếu Đặt Phòng Trực Tuyến</span>
+                    <h3 id="booking-hotel-name" class="text-lg font-bold mt-0.5"></h3>
+                    <p id="booking-hotel-loc" class="text-xs text-slate-300 mt-0.5"></p>
+                </div>
+                <button class="modal-close w-8 h-8 rounded-full bg-white/20 text-white flex items-center justify-center hover:bg-white/30 transition">
+                    <i class="fa-solid fa-xmark text-sm"></i>
+                </button>
+            </div>
+
+            <form id="booking-form" class="p-6 space-y-4">
+                <div class="flex gap-4 items-center">
+                    <img id="booking-hotel-img" src="" class="w-20 h-20 rounded-xl object-cover border border-slate-200 shadow-sm flex-shrink-0">
+                    <div class="flex-1">
+                        <label class="block text-xs font-bold text-slate-700 mb-1">Loại Phòng:</label>
+                        <select id="booking-room-type" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs font-semibold focus:outline-none focus:border-sky-500">
+                            <!-- Injected -->
+                        </select>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1">Ngày nhận phòng (Check-in):</label>
+                        <input id="booking-checkin" type="date" required class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs font-semibold focus:outline-none focus:border-sky-500">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1">Ngày trả phòng (Check-out):</label>
+                        <input id="booking-checkout" type="date" required class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs font-semibold focus:outline-none focus:border-sky-500">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1">Số phòng:</label>
+                        <input id="booking-rooms" type="number" min="1" max="10" value="1" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs font-semibold focus:outline-none focus:border-sky-500">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1">Số khách:</label>
+                        <input id="booking-guests" type="number" min="1" max="20" value="2" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs font-semibold focus:outline-none focus:border-sky-500">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1">Họ và tên khách:</label>
+                        <input id="booking-fullname" type="text" required placeholder="Nguyễn Văn A" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs font-semibold focus:outline-none focus:border-sky-500">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1">Số điện thoại liên hệ:</label>
+                        <input id="booking-phone" type="tel" required placeholder="0912 345 678" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs font-semibold focus:outline-none focus:border-sky-500">
+                    </div>
+                </div>
+
+                <!-- Promo code bar -->
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">Mã Giảm Giá / Voucher (thử: VIETNAM2026):</label>
+                    <div class="flex gap-2">
+                        <input id="booking-promo-input" type="text" placeholder="Nhập mã ưu đãi..." class="flex-1 px-3 py-2 rounded-xl border border-slate-200 text-xs font-semibold uppercase focus:outline-none focus:border-sky-500">
+                        <button type="button" id="booking-promo-btn" class="px-4 py-2 bg-slate-800 text-white rounded-xl text-xs font-bold hover:bg-slate-900 transition">Áp Dụng</button>
+                    </div>
+                    <div id="booking-promo-msg" class="mt-1"></div>
+                </div>
+
+                <!-- Price Breakdown Box -->
+                <div class="bg-slate-50 p-4 rounded-2xl border border-slate-100 text-xs space-y-1.5">
+                    <div class="flex justify-between text-slate-600">
+                        <span>Thời lượng:</span>
+                        <span id="booking-nights-count" class="font-bold">1 đêm × 1 phòng</span>
+                    </div>
+                    <div class="flex justify-between text-slate-600">
+                        <span>Giá phòng gốc:</span>
+                        <span id="booking-subtotal" class="font-bold">0đ</span>
+                    </div>
+                    <div class="flex justify-between text-emerald-600 font-semibold">
+                        <span>Giảm giá voucher:</span>
+                        <span id="booking-discount-val">0đ</span>
+                    </div>
+                    <div class="flex justify-between text-slate-600">
+                        <span>Thuế VAT & Phí dịch vụ (8%):</span>
+                        <span id="booking-tax-val" class="font-bold">0đ</span>
+                    </div>
+                    <div class="pt-2 border-t border-slate-200 flex justify-between items-center text-sm">
+                        <span class="font-black text-slate-900">Tổng thanh toán:</span>
+                        <span id="booking-grand-total" class="font-black text-rose-600 text-base">0đ</span>
+                    </div>
+                </div>
+
+                <div class="pt-2 flex items-center justify-end gap-3">
+                    <button type="button" class="modal-close px-5 py-2.5 rounded-xl border border-slate-200 text-slate-700 text-xs font-bold hover:bg-slate-50 transition">
+                        Hủy
+                    </button>
+                    <button type="submit" class="px-6 py-2.5 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white rounded-xl text-xs font-bold shadow-lg shadow-emerald-600/20 transition active:scale-95 flex items-center gap-1.5">
+                        <i class="fa-solid fa-check"></i> Xác Nhận Đặt Phòng
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Floating Quick Actions -->
+    <div class="fixed bottom-6 left-6 z-40 flex flex-col gap-2.5">
+        <a href="tel:0902706489" class="w-12 h-12 rounded-full bg-emerald-600 text-white flex items-center justify-center shadow-lg hover:scale-110 transition active:scale-95 group relative" title="Gọi tổng đài">
+            <i class="fa-solid fa-phone text-base"></i>
+            <span class="absolute left-14 bg-slate-900 text-white text-xs px-2.5 py-1 rounded-md whitespace-nowrap opacity-0 group-hover:opacity-100 transition pointer-events-none">Hotline: 0902 706 489</span>
+        </a>
+    </div>
+
+    <!-- Back to top button -->
+    <a href="#" class="fixed bottom-6 right-6 z-40 w-12 h-12 rounded-full bg-white/90 backdrop-blur-md text-slate-700 border border-slate-200 shadow-lg flex items-center justify-center hover:bg-sky-600 hover:text-white transition active:scale-95" title="Lên đầu trang">
+        <i class="fa-solid fa-arrow-up text-sm"></i>
+    </a>
+
+    <!-- Toast Notification Container -->
+    <div id="toast-container"></div>
+
+    <!-- Application Data & Script -->
+    <script src="js/data.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
